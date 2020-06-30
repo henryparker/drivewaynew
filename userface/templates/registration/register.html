@@ -1,10 +1,54 @@
-{% block title %}Create an Account{% endblock %}
+{% block title %}
+
+<style>
+body {background-color: powderblue;}
+h1   {color: blue;}
+p    {color: red;}
+
+div.blah1 {
+
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+</style>
+<div class="blah1">
+	Create an Account
+
+</div>
+
+
+
+{% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="POST" class="form-group">
+
+<style>
+body {background-color: powderblue;}
+h1   {color: blue;}
+p    {color: red;}
+
+div.blah {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+</style>
+<div class="blah">
+	<form method="POST" class="form-group">
 	{% csrf_token %}
 	{{ form|crispy }}
 	<button type="submit" class="btn btn-success">Register</button>
     </form>
+
+
+</div>
+
+
 {% endblock %}
