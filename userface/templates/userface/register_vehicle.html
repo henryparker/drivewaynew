@@ -5,7 +5,5 @@
 {% block content %}
     <form method="POST" class="form-group">
 	{% csrf_token %}
-	{% crispy form %}
-	<button type="submit" class="btn btn-success">Register</button>
     </form>
 {% endblock %}

@@ -80,14 +80,15 @@ def registervehicle(request):
     if request.method == 'POST':
         form = VehicleForm(request.POST)
         if form.is_valid():
-            vehicle =form.save(commit=False)
-            vehicle.make=form.cleaned_data.get('make')
+            vehicle = form.save(commit=False)
+            vehicle.make = form.cleaned_data.get('make')
             vehicle.model = form.cleaned_data.get('model')
             vehicle.user = request.user
             vehicle.save()
-            return redirect("/userface")
+        return redirect("/userface")
     else:
-        form=VehicleForm
+        form = VehicleForm()
+
     return render(request, "userface/register_vehicle.html", {"form": form})
 
 
@@ -102,9 +103,10 @@ def addspot(request):
             parkingspot.location = words_to_point(fullAddress)
             parkingspot.owner = request.user
             parkingspot.save()
-            return redirect("/userface")
+        return redirect("/userface")
     else:
-        form=ParkingSpaceForm
+        form = ParkingSpaceForm()
+
     return render(request, "userface/addspot.html", {"form": form})
 
 

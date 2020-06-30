@@ -36,7 +36,9 @@ class ParkingSpaceForm(forms.ModelForm):
     city = forms.CharField(label="City", required=True)
     helper = FormHelper()
     helper.form_method = 'POST'
-    helper.add_input(Submit('Save', 'Save', css_class='btn-primary'))
+    helper.add_input(Submit('List', 'List', css_class='btn-primary'))
+    #helper.form_tag = False
+    #helper.form_id = 'addspot'
 
     class Meta:
         model = ParkingSpot
