@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Vehicles on Account</h1>
+
+    {% if vehicle_list %}
+    <ul>
+
+      {% for vehicle in vehicle_list %}
+      <li>
+        {{ vehicle.make }}</a> {{vehicle.model}}
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>You have no vehicles</p>
+    {% endif %}
+{% endblock %}
