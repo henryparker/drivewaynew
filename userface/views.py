@@ -76,20 +76,36 @@ class VehicleListView(LoginRequiredMixin,generic.ListView):
         return Vehicle.objects.filter(user=self.request.user)[:5]
 
 
-def registervehicle(response):
-    if response.method == "POST":
-        form = VehicleForm(response.POST)
+def registervehicle(request):
+    if request.method == 'POST':
+        form = VehicleForm(request.POST)
         if form.is_valid():
-            form.save()
-
-        return redirect("/userface")
+            vehicle =form.save(commit=False)
+            vehicle.make=form.cleaned_data.get('make')
+            vehicle.model = form.cleaned_data.get('model')
+            vehicle.user = request.user
+            vehicle.save()
+            return redirect("/userface")
     else:
-        form = VehicleForm()
-
-    return render(response, "userface/register_vehicle.html", {"form": form})
-
+        form=VehicleForm
+    return render(request, "userface/register_vehicle.html", {"form": form})
 
 
+def addspot(request):
+    if request.method == 'POST':
+        form = ParkingSpaceForm(request.POST)
+        if form.is_valid():
+            parkingspot =form.save(commit=False)
+            parkingspot.address=form.cleaned_data.get('address')
+            parkingspot.city = form.cleaned_data.get('city')
+            fullAddress = form.cleaned_data.get('address') + " " + form.cleaned_data.get('city')
+            parkingspot.location = words_to_point(fullAddress)
+            parkingspot.owner = request.user
+            parkingspot.save()
+            return redirect("/userface")
+    else:
+        form=ParkingSpaceForm
+    return render(request, "userface/addspot.html", {"form": form})
 
 
 

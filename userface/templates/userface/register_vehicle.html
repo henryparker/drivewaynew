@@ -1,10 +1,11 @@
 {% block title %}Register Your Car{% endblock %}
 {% load crispy_forms_tags %}
+{% crispy form form.helper %}
 
 {% block content %}
     <form method="POST" class="form-group">
 	{% csrf_token %}
-	{{ form|crispy }}
+	{% crispy form %}
 	<button type="submit" class="btn btn-success">Register</button>
     </form>
 {% endblock %}

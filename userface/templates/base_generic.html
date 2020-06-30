@@ -21,6 +21,7 @@
          <li><a href="{% url 'userface:my-vehicles'%}?next={{request.path}}">Vehicles</a></li>
          <li><a href="{% url 'userface:search'%}?next={{request.path}}">Search Destination</a></li>
             <li><a href="{% url 'userface:registervehicle'%}?next={{request.path}}">Register Vehicle</a></li>
+            <li><a href="{% url 'userface:addspot'%}?next={{request.path}}">Add Spot</a></li>
        {% else %}
          <h4>Welcome! Login to Driveways.</h4>
          <li><a href="{% url 'login'%}?next=/userface">Login</a></li>

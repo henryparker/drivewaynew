@@ -17,7 +17,7 @@ class RegisterForm(UserCreationForm):
         fields = ["username", "email", "first_name", "last_name", "password1", "password2"]
 
 
-class VehicleForm(forms.Form):
+class VehicleForm(forms.ModelForm):
     make = forms.CharField(label="Make", required=True)
     model = forms.CharField(label="Model", required=True)
     #color = forms.CharField(label="Color", required=True)
@@ -31,7 +31,7 @@ class VehicleForm(forms.Form):
         model = Vehicle
         fields = ["make", "model"]
 
-class ParkingSpaceForm(forms.Form):
+class ParkingSpaceForm(forms.ModelForm):
     address = forms.CharField(label="Address", required=True)
     city = forms.CharField(label="City", required=True)
     helper = FormHelper()

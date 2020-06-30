@@ -12,5 +12,6 @@ urlpatterns += [
     path('register/', views.register, name='register'),
     path('search/', views.search, name='search'),
     path('registervehicle/',views.registervehicle, name = 'registervehicle'),
+    path('addspot/',views.addspot, name = 'addspot'),
     path('search/results', views.search, name='search_results')
 ]
