@@ -15,8 +15,8 @@
   </head>
   <body>
 		{% block sidebar %}
-    <div class="flex" style="margin: 10px">
-    <ul class="flex">
+    <div class="flex flex-wrap" style="margin: 30px; overflow:auto;">
+    <ul class="flex flex-wrap">
     {% if user.is_authenticated %}
     <li class="mr-3" > <h3 class="h3"> User: {{ user.get_username }} </h3></li>
   <li class="mr-3">
