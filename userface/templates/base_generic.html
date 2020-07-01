@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <h1 class="h1">Welcome to Driveways </h1>
   	  {% block title %}<title>Local Library</title>{% endblock %}
 
     <meta charset="utf-8">
@@ -32,7 +33,7 @@
     <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-purple-500 text-white" href="{% url 'userface:registervehicle'%}?next={{request.path}}">Register Vehicle</a>
   </li>
   <li class="mr-3">
-    <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-purple-500 text-white" href="{% url 'userface:addspot'%}?next={{request.path}}">Add Spot</a>
+    <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-purple-500 text-white" href="{% url 'userface:addspot'%}?next={{request.path}}">Add Parking Spot</a>
   </li>
 {% else %}
   <li class="mr-3"><a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white" href="{% url 'login'%}?next=/userface">Login</a></li>
