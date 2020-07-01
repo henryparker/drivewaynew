@@ -1,54 +1,24 @@
 {% extends "userface/index.html" %}
-{% block title %}
-
-<style>
-body {background-color: powderblue;}
-h1   {color: blue;}
-p    {color: red;}
-
-div.blah1 {
-
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-
-</style>
-<div class="blah1">
-	<h1 style="color:blue;">Login Here</h1>
-
-
-</div>
-
-
-
-{% endblock %}
-
-{% load crispy_forms_tags %}
 
 {% block content %}
-<style>
-body {background-color: powderblue;}
-h1   {color: blue;}
-p    {color: red;}
 
-div.blah {
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-
-</style>
-
-<div class="blah">
-     <form method="post" class="from-group">
-	{% csrf_token %}
-	{{form|crispy}}
-	<p>Don't have an accoount? Create one <a href="/userface/register">here</a></p>
-	<button type="submit" class="btn btn-success">Login</button>
-    </form>
-</div>
+{% load crispy_forms_tags %}
+  <form method="post" style="width:50%">
+  {% csrf_token %}
+    <div>
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+        {{ form.username|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+        {{ form.password|as_crispy_field }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    
+  </form>
 {% endblock %}
+
