@@ -1,83 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+  	  {% block title %}<title>Local Library</title>{% endblock %}
 
-  {% block title %}<title>Local Library</title>{% endblock %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <!-- Add additional CSS in static file -->
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 
-<style>
-body {background-color: powderblue;}
-h1   {color: blue;}
-p    {color: red;}
-
-
-div.container-fluid {
-
-width: 100%;
-height: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-div.col-sm-2 {
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-
-
-div.row {
-
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center
-}
-
-ul.sidebar-nav {
-    padding: 0 0 0 20px;
-    margin: 0;
-    list-style: none;
-}
-
-
-</style>
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-2">
-      {% block sidebar %}
-        <ul class="sidebar-nav">
-       {% if user.is_authenticated %}
-         <li>User: {{ user.get_username }}</li>
-         <li><a href="{% url 'logout'%}?next=/userface">Logout</a></li>
-         <li><a href="{% url 'userface:my-vehicles'%}?next={{request.path}}">Vehicles</a></li>
-         <li><a href="{% url 'userface:search'%}?next={{request.path}}">Search Destination</a></li>
-            <li><a href="{% url 'userface:registervehicle'%}?next={{request.path}}">Register Vehicle</a></li>
-            <li><a href="{% url 'userface:addspot'%}?next={{request.path}}">Add Spot</a></li>
-       {% else %}
-         <h3 style="color:blue;">Welcome! Login to Driveways.</h3>
-
-         <li><a href="{% url 'login'%}?next=/userface">Login</a></li>
-         <li><a href="{% url 'userface:register'%}?next={{request.path}}">Register</a></li>
-       {% endif %}
-        </ul>
-     {% endblock %}
-      </div>
-      <div class="col-sm-10 ">{% block content %}{% endblock %}</div>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		 
+    {% load static %}
+		<link rel="stylesheet" href={% static 'css/styles.css' %}>
+  </head>
+  <body>
+		{% block sidebar %}
+    <div class="flex" style="margin: 10px">
+    <ul class="flex">
+    {% if user.is_authenticated %}
+    <li class="mr-3" > User: {{ user.get_username }}</li>
+  <li class="mr-3">
+    <a  class="inline-block border border-blue-500 rounded py-1 px-3 bg-red-500 text-white" href="{% url 'logout'%}?next=/userface">Logout</a>
+  </li>
+  <li class="mr-3">
+    <a  class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white" href="{% url 'userface:my-vehicles'%}?next={{request.path}}">Vehicles</a>
+  </li>
+  <li class="mr-3">
+    <a  class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white" href="{% url 'userface:search'%}?next={{request.path}}">Search Destination</a>
+  </li>
+  <li class="mr-3"> 
+    <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-purple-500 text-white" href="{% url 'userface:registervehicle'%}?next={{request.path}}">Register Vehicle</a>
+  </li>
+  <li class="mr-3">
+    <a class="inline-block border border-blue-500 rounded py-1 px-3 bg-purple-500 text-white" href="{% url 'userface:addspot'%}?next={{request.path}}">Add Spot</a>
+  </li>
+{% else %}
+  <li class="mr-3"><a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white" href="{% url 'login'%}?next=/userface">Login</a></li>
+              <li class="mr-3"><a class="inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white" href="{% url 'userface:register'%}?next={{request.path}}">Register</a></li>
+              {% endif %}
+    </ul>
     </div>
-  </div>
-</body>
+    {% endblock %}  
+
+    <div class="flex" style="margin: 10px;padding: 10px; border-top:solid gray">{% block content %}{% endblock %}</div>
+
+  </body>
 </html>

@@ -42,15 +42,16 @@ def search(request):
             destination = words_to_point(resultss)
 
         except (GeocoderTimedOut, AttributeError) as e:
-            request.session['location'] = "Location cannot be determined"
+            request.session['spot'] = "Location cannot be determined"
             return render(request, 'userface/search.html', {'resultss': resultss})
 
-        request.session['location'] = "unknown"
+        request.session['spot'] = "unknown"
         if request.user.is_authenticated:
-            request.session['location'] = []
+            request.session['spot'] = []
             near_spots = ParkingSpot.objects.filter(location__distance_lt=(destination, Distance(km=3)))
             for spot in near_spots:
-                request.session['location'].append(spot.address)
+                request.session['spot'].append({"address":spot.address, "owner": spot.owner.first_name})
+            print(request.session['spot'])
     return render(request, 'userface/search.html', {'resultss':resultss})
 
 
