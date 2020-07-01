@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import generic
-from .models import User, Vehicle, ParkingSpot, Destination
+from .models import User, Vehicle, ParkingSpot, Destination, UserDetails
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import fromstr
@@ -54,11 +54,20 @@ def search(request):
                 location__distance_lt=(destination, Distance(km=3)))
             for spot in near_spots:
                 if len(spot.address) > 0:
+                    try :
+
+                        details = UserDetails.objects.get(owner = spot.owner)
+                        number = details.number
+
+                    except UserDetails.DoesNotExist:
+                        number = ""
+
                     request.session['spot'].append(
                         {"address": spot.address,
                          "owner": spot.owner.first_name + " " + spot.owner.last_name,
                          "lon": spot.location.y,
-                         "lat": spot.location.x})
+                         "lat": spot.location.x,
+                         "number": number})
     return render(request, 'userface/search.html', {'resultss': resultss, 'dest': dest})
 
 

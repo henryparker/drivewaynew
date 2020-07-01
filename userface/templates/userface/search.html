@@ -35,6 +35,7 @@
               <div class="card-body">
                 <p class="card-text">Address: {{spot.address}}</p>
                 <p class="card-text">Owner: {{spot.owner}}</p>
+                  <p class="card-text">Phone Number: {{spot.number}}</p>
               </div>
             </div>
           {% endif %}
@@ -70,9 +71,9 @@
 
         // zoom to point & add it to map
         map.setView([lat, lon], 12);
-        L.marker([lat, lon]).addTo(map);
+        L.marker([lat, lon], {title: "Destination"}).addTo(map);
        "{% for spot in request.session.spot %}"
-          L.marker(["{{spot.lat}}", "{{spot.lon}}"]).addTo(map);
+          L.marker(["{{spot.lat}}", "{{spot.lon}}"], {title: "Parking Spot"}).addTo(map);
         "{% endfor %}"
 
     }
@@ -84,7 +85,7 @@
     {%if resultss and not request.session.spot%}
       <h4 class="h4" style="margin:10px;">No Parking Spots to {{resultss}}</h3> 
     {% else %}
-      <h4 class="h4" style="margin:10px;">Please Enter Destination</h3> 
+
     {% endif %}
     {% endif %}
     </div>

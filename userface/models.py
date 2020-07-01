@@ -33,3 +33,7 @@ class Destination(models.Model):
 class UserLocation(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     location = models.PointField()
+
+class UserDetails(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    number = models.CharField(max_length = 20)

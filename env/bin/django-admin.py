@@ -1,4 +1,4 @@
-#!/Users/mickey/Downloads/drive/env/bin/python3
+#!/mnt/c/Users/Andres Canas/Documents/Projects/drivewaynew/env/bin/python
 from django.core import management
 
 if __name__ == "__main__":
