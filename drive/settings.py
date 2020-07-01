@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'django.contrib.gis',
-    'geoip2'
+    'geoip2',
+    'leaflet'
 ]
 
 MIDDLEWARE = [

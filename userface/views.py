@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views import generic
-from .models import User,Vehicle, ParkingSpot
+from .models import User,Vehicle, ParkingSpot, Destination
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import fromstr
@@ -13,6 +13,7 @@ from .forms import RegisterForm,VehicleForm,ParkingSpaceForm
 from django.contrib.gis.geos import fromstr
 from geopy.geocoders import  Nominatim
 from geopy.exc import GeocoderTimedOut
+from django.views.generic import DetailView
 
 
 def words_to_point(q):
@@ -28,8 +29,6 @@ def index(request):
 
 
 
-
-
 def search(request):
 
     if request.method == "GET":
@@ -41,6 +40,7 @@ def search(request):
 
             destination = words_to_point(resultss)
 
+
         except (GeocoderTimedOut, AttributeError) as e:
             request.session['location'] = "Location cannot be determined"
             return render(request, 'userface/search.html', {'resultss': resultss})
@@ -48,10 +48,25 @@ def search(request):
         request.session['location'] = "unknown"
         if request.user.is_authenticated:
             request.session['location'] = []
+            c_user = request.user
+            dest = c_user.destination_set.create(address = resultss, location = destination)
+            dest.save()
             near_spots = ParkingSpot.objects.filter(location__distance_lt=(destination, Distance(km=3)))
             for spot in near_spots:
                 request.session['location'].append(spot.address)
-    return render(request, 'userface/search.html', {'resultss':resultss})
+    return render(request, 'userface/search.html', {'resultss':resultss, 'dest':dest})
+
+
+# class DestinationDetailView(DetailView):
+#     """
+#         City detail view.
+#     """
+#     template_name = 'userface/searchresults.html'
+#     model = Destination
+
+
+
+
 
 
 def register(response):
@@ -65,6 +80,8 @@ def register(response):
         form = RegisterForm()
 
     return render(response, "registration/register.html", {"form": form})
+
+
 
 
 
