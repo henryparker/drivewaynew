@@ -1,6 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.views import generic
-from .models import User,Vehicle, ParkingSpot, Destination
+from .models import User, Vehicle, ParkingSpot, Destination
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import fromstr
@@ -8,25 +8,24 @@ from django.contrib.gis.measure import Distance, D
 from geopy.distance import distance
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-from .forms import RegisterForm,VehicleForm,ParkingSpaceForm
+from .forms import RegisterForm, VehicleForm, ParkingSpaceForm
 #from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.gis.geos import fromstr
-from geopy.geocoders import  Nominatim
+from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 from django.views.generic import DetailView
 
 
 def words_to_point(q):
-    geolocator = Nominatim(user_agent = "driveways")
+    geolocator = Nominatim(user_agent="driveways")
     location = geolocator.geocode(q)
     point = Point(location.latitude, location.longitude)
     return point
 
+
 def index(request):
 
     return render(request, 'userface/index.html')
-
-
 
 
 def search(request):
@@ -40,19 +39,27 @@ def search(request):
 
             destination = words_to_point(resultss)
 
-
         except (GeocoderTimedOut, AttributeError) as e:
-            request.session['spot'] = "Location cannot be determined"
+            request.session['spot'] = []
             return render(request, 'userface/search.html', {'resultss': resultss})
 
         request.session['spot'] = "unknown"
         if request.user.is_authenticated:
+            c_user = request.user
+            dest = c_user.destination_set.create(
+                address=resultss, location=destination)
+            dest.save()
             request.session['spot'] = []
-            near_spots = ParkingSpot.objects.filter(location__distance_lt=(destination, Distance(km=3)))
+            near_spots = ParkingSpot.objects.filter(
+                location__distance_lt=(destination, Distance(km=3)))
             for spot in near_spots:
-                request.session['spot'].append({"address":spot.address, "owner": spot.owner.first_name})
-            print(request.session['spot'])
-    return render(request, 'userface/search.html', {'resultss':resultss, 'dest':dest})
+                if len(spot.address) > 0:
+                    request.session['spot'].append(
+                        {"address": spot.address,
+                         "owner": spot.owner.first_name + " " + spot.owner.last_name,
+                         "lon": spot.location.y,
+                         "lat": spot.location.x})
+    return render(request, 'userface/search.html', {'resultss': resultss, 'dest': dest})
 
 
 def register(response):
@@ -68,13 +75,11 @@ def register(response):
     return render(response, "registration/register.html", {"form": form})
 
 
-
-
-
-class VehicleListView(LoginRequiredMixin,generic.ListView):
+class VehicleListView(LoginRequiredMixin, generic.ListView):
     model = Vehicle
     #context_object_name = 'vehicles'
     template_name = 'userface/user_vehicle_list.html'
+
     def get_queryset(self):
         return Vehicle.objects.filter(user=self.request.user)[:5]
 
@@ -99,10 +104,11 @@ def addspot(request):
     if request.method == 'POST':
         form = ParkingSpaceForm(request.POST)
         if form.is_valid():
-            parkingspot =form.save(commit=False)
-            parkingspot.address=form.cleaned_data.get('address')
+            parkingspot = form.save(commit=False)
+            parkingspot.address = form.cleaned_data.get('address')
             parkingspot.city = form.cleaned_data.get('city')
-            fullAddress = form.cleaned_data.get('address') + " " + form.cleaned_data.get('city')
+            fullAddress = form.cleaned_data.get(
+                'address') + " " + form.cleaned_data.get('city')
             parkingspot.location = words_to_point(fullAddress)
             parkingspot.owner = request.user
             parkingspot.save()
@@ -111,8 +117,3 @@ def addspot(request):
         form = ParkingSpaceForm()
 
     return render(request, "userface/addspot.html", {"form": form})
-
-
-
-
-

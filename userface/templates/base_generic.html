@@ -18,7 +18,7 @@
     <div class="flex" style="margin: 10px">
     <ul class="flex">
     {% if user.is_authenticated %}
-    <li class="mr-3" > User: {{ user.get_username }}</li>
+    <li class="mr-3" > <h3 class="h3"> User: {{ user.get_username }} </h3></li>
   <li class="mr-3">
     <a  class="inline-block border border-blue-500 rounded py-1 px-3 bg-red-500 text-white" href="{% url 'logout'%}?next=/userface">Logout</a>
   </li>

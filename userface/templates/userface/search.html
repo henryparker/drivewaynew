@@ -22,20 +22,22 @@
     </div>
 
 
-    {%if resultss and request.session.spot%}
+    {% if resultss and request.session.spot and request.session.spot.0 %}
     <div style="margin: 20px">
         <h1 class="h1"> {{resultss}} </h1>
         <h3 class="h3"> Parking Spots next to Destination: </h3>
         {% comment %} <li> {{}} </li> {% endcomment %}
         <div class="flex flex-wrap">
         {% for spot in request.session.spot %}
-          <div class="card" style="width: 18rem; margin: 10px;">
-            <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" class="card-img-top" alt="No-image-available">
-            <div class="card-body">
-              <p class="card-text">Address: {{spot.address}}</p>
-              <p class="card-text">Owner: {{spot.owner}}</p>
+          {% if spot.address %}
+            <div class="card" style="width: 18rem; margin: 10px;">
+              <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" class="card-img-top" alt="No-image-available">
+              <div class="card-body">
+                <p class="card-text">Address: {{spot.address}}</p>
+                <p class="card-text">Owner: {{spot.owner}}</p>
+              </div>
             </div>
-          </div>
+          {% endif %}
 
         {% endfor %}
         </div>
@@ -52,9 +54,7 @@
 
 
 <div>
-    "Destination in blue"
     {% leaflet_map "main" callback="map_init" %}
-    <li><a href="/userface">Return to Profile</a></li>
 </div>
 
 
@@ -71,6 +71,9 @@
         // zoom to point & add it to map
         map.setView([lat, lon], 12);
         L.marker([lat, lon]).addTo(map);
+       "{% for spot in request.session.spot %}"
+          L.marker(["{{spot.lat}}", "{{spot.lon}}"]).addTo(map);
+        "{% endfor %}"
 
     }
 
@@ -89,5 +92,3 @@
 
 {% else %}
 {% endif %}
-
-\
