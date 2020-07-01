@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views import generic
-from .models import User,Vehicle, ParkingSpot
+from .models import User,Vehicle, ParkingSpot, Destination
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import fromstr
@@ -13,6 +13,7 @@ from .forms import RegisterForm,VehicleForm,ParkingSpaceForm
 from django.contrib.gis.geos import fromstr
 from geopy.geocoders import  Nominatim
 from geopy.exc import GeocoderTimedOut
+from django.views.generic import DetailView
 
 
 def words_to_point(q):
@@ -28,8 +29,6 @@ def index(request):
 
 
 
-
-
 def search(request):
 
     if request.method == "GET":
@@ -40,6 +39,7 @@ def search(request):
         try:
 
             destination = words_to_point(resultss)
+
 
         except (GeocoderTimedOut, AttributeError) as e:
             request.session['spot'] = "Location cannot be determined"
@@ -52,7 +52,7 @@ def search(request):
             for spot in near_spots:
                 request.session['spot'].append({"address":spot.address, "owner": spot.owner.first_name})
             print(request.session['spot'])
-    return render(request, 'userface/search.html', {'resultss':resultss})
+    return render(request, 'userface/search.html', {'resultss':resultss, 'dest':dest})
 
 
 def register(response):
@@ -66,6 +66,8 @@ def register(response):
         form = RegisterForm()
 
     return render(response, "registration/register.html", {"form": form})
+
+
 
 
 

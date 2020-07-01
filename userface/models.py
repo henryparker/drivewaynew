@@ -24,10 +24,10 @@ class ParkingSpot(models.Model):
 
 
 class Destination(models.Model):
-    name = models.CharField(max_length=70)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=100)
+    location = models.PointField()
     city = models.CharField(max_length=50)
-    state = models.CharField(max_length=30)
 
 
 class UserLocation(models.Model):

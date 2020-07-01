@@ -1,11 +1,5 @@
 {% extends "userface/index.html" %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+
 {% if user.is_authenticated %}
     {% load crispy_forms_tags %}
 
@@ -48,6 +42,40 @@
     </div>
 
 
+
+{% load leaflet_tags %}
+
+{% leaflet_css %}
+
+{% leaflet_js %}
+
+
+
+<div>
+    "Destination in blue"
+    {% leaflet_map "main" callback="map_init" %}
+    <li><a href="/userface">Return to Profile</a></li>
+</div>
+
+
+<script type="text/javascript">
+
+    function map_init(map, options) {
+
+        // get point lat and lon
+
+        var lat = "{{ dest.location.x }}";
+
+        var lon = "{{ dest.location.y }}";
+
+        // zoom to point & add it to map
+        map.setView([lat, lon], 12);
+        L.marker([lat, lon]).addTo(map);
+
+    }
+
+</script>
+
     {% else %}
    
     {%if resultss and not request.session.spot%}
@@ -62,5 +90,4 @@
 {% else %}
 {% endif %}
 
-</body>
-</html>
+\
