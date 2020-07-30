@@ -128,5 +128,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR,  'static')
+#STATICFILES_DIRS = ('static', os.path.join('static', 'admin'),)
 #GEOIP_PATH = '/mnt/c/Users/Andres Canas/PycharmProjects/driveways_project/untitled5/env/lib/python3.8/site-packages/geoip2'
+#GDAL_LIBRARY_PATH = os.environ.get("/var/task/rasterio/.libs/libgdal-8b68ca59.so.20.5.2")
+#GEOS_LIBRARY_PATH = os.environ.get("/var/task/rasterio/.libs/libgeos_c-595de9d4.so.1.10.2")
